@@ -1,0 +1,18 @@
+1.a. Dian adalah orang
+  b. Atoz adalah mobil
+  c. Dian menyukai atoz
+  d. atoz adalah mobil yang dijual
+  e. x(Dian) dapat membeli y(atoz) jika x(Dian) adalah orang dan y(atoz) adalah mobil dan x(dian) menyukai y(atoz) dan y(atoz) dijual
+  f. Setiap orang yang menyukai apa(mobil). 
+
+2.a.hobi_main(Ricky,catur).
+  b.malas(embang).
+  c.vegetarian(yusida).
+  d.pandai_main(kusdiar,gitar).
+  e.mobil(merah,sadek,bmw).
+  f.pemain_piano(awan,pontianak,jawa).
+  g.baik(orang);-sifat(orang,penyayang),sifat(orang,dermawan).
+  h.pintar(orang);-matematika(orang,nilai),nilai tinggi;ipa(orang,nilai),nilai tinggi;ips(orang,nilai),nilai tinggi.
+  i.mati(_).
+
+
