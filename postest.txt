@@ -1,0 +1,562 @@
+I.1. COMPILER DIRECTIVES
+Compiler directives digunakan untuk memberi perintah kepada Turbo Prolog 2.0 tentang hal-hal tambahan yang harus dilakukan pada saat kompilasi. Perintah ini dituliskan dibagian awal program, atau dapat melalui menu Option/Compiler Directives akan tetapi hal yang sudah ditentukan dalam menu akan ditimpa oleh yang ditulis dalam program.
+Misalkan jika anda akan membuat program grafik menjadi file.EXE (Executable file), maka harus memberi tahu compiler tentang driver yang digunakan (misal CGA, EGA, VGA).
+Contoh : bgidriver “_VGA_driver_far”
+
+I.2. CONSTANTS
+Untuk menyatakan konstanta yang ada (digunakan) dalam program.
+
+I.3. DOMAINS
+Domains berisi deklarasi (pernyataan) tentang jenis data yang digunakan dalam fakta dan aturan. Mirip dengan bahasa Pascal atau C.
+Ada 6 buah ” DOMAINS” standar yang dikenal dalam Turbo Prolog, yaitu :
+Integer	: Bilangan bulat dengan range -32.768 sampai dengan 32.767
+Real		: Bilangan riil dari 1*e-307  sampai dengan  1*e+308
+Char	: Karakter tunggal yang berada diantara tanda ’  ’ yang terdiri atas angka,       huruf atau atau simbol khusus. Contoh : ’a’, ’4’, ’K’, ’%’.
+String	: Kumpulan karakter yang berada diantara tanda ”  ”. Contoh : ”Anda”, ”Aku”, ”Pergi belanja”.
+Symbol	: Kumpulan karakter dan harus diawali dengan huruf kecil. Contoh : mari, abu, amin
+File	: Digunakan untuk operasi file.
+Selain domains standard, pemrogram dapat mendefinisikan domains lain yang terdiri dari domains standard.
+ 
+I.4. DATA BASE
+Untuk menyimpan informasi dalam basis data internal. Bagian DATABASE boleh lebih dari satu. 
+Program dalam prolog is a database of facts and rules 
+Contoh : DATABASE
+                 Data_pribadi(nama,alamat,jabatan)
+Perlu diingat bahwa predikat basis data boleh lebih dari satu, tetapi predikat yang sudah dinyatakan sebagai basis data tidak dapat digunakan lagi sebagai predikat biasa.
+Syarat predikat yang dinyatakan dalam basis data :
+1.	Hanya fakta yang boleh disimpan dalam basis data, aturan tidak diperbolehkan.
+2.	Fakta tersebut tidak boleh mengandung variabel bebas.
+Dalam Turbo Prolog 2.0 ada dua basis data, yaitu Basis Data Internal dan Basis Data Eksternal. Dalam basis data internal semua data baik yang bersifat statis (dalam program) maupun yang bersifat dinamis disimpan dalam memori. 
+Bagian DATABASE boleh lebih dari satu, jika demikian, maka masing-masing harus diberi nama.
+Contoh :
+DATABASE_DaftarMahasiswa
+	mahasiswa(nama,nim,alamat)
+DATABASE_DaftarNilaiAI
+	nilai(nim,nilai)
+Jika database tidak diberi nama (hanya satu bagian), maka secara otomatis Turbo Prolog 2.0 akan memberi nama dbasedom 
+
+I.5. PREDICATES
+PREDICATES adalah nama simbolik untuk relasi. Contoh : Terdapat fakta bahwa   slamet ayah dari amin. Dapat disajikan sebagai :
+		ayah(slamet,amin). adik_kandung(marini,mario)
+ayah merupakan nama predicates sedangkan slamet dan amin adalah obyek yang berjenis symbol 
+Dalam predicates di atas, slamet dan amin disebut sebagai argumen. Predicates tersebut menyatakan relasi antara slamet dan amin, yaitu slamet adalah ayah dari amin, marini adik_kandung mario. 
+Sebuah predicates dapat tidak memiliki argumen atau memiliki argumen dengan jumlah bebas. Jumlah argumen suatu predicates disebut arity (aritas).
+Syarat penulisan nama predicates :
+•	Diawali dengan huruf kecil dan dapat diikuti oleh huruf, bilangan atau garis bawah.
+•	Panjang maksimum nama predicates 250 karakter.
+•	Tidak boleh menggunakan spasi, tanda bintang (*), tanda minus (-), dan garis miring (/).
+Argumen dalam predicates tidak harus dituliskan dengan domains standard, tetapi dapat dinyatakan dengan argumen lain. Contoh : 
+	alamat(jalan,kota,kode_pos)
+	kelahiran(tanggal,bulan,tahun)
+Seperti dalam bahasa Pascal atau C, apabila argumen status predicates tidak dituliskan dalam domains Standard, maka argumen tersebut harus dinyatakan dalam bagian DOMAINS, demikian sebaliknya. Contoh :
+	DOMAINS
+		jalan,kota,kode_pos = string
+		tanggal,bulan,tahun = integer
+	PREDICATES
+		alamat(jalan,kota,kode_pos)
+		kelahiran(tanggal,bulan,tahun)
+Contoh di atas lebih baik dibandingkan apabila argumen suatu predicates langsung dituliskan dalam domains standard, seperti :
+	PREDICATES
+		alamat(string,string,string)
+		kelahiran(integer,integer,integer)
+Predicates dengan nama yang sama dapat mempunyai aritas yang berbeda. Kedua predicates ini merupakan predicates yang berbeda tetapi keduanya harus dituliskan dalam satu kumpulan nama yang sama. Misalnya :
+	ayah(nama); ayah(parto)
+	ayah(nama,nama); ayah(parto,paijo)
+Pada contoh pertama, predicates menyatakan bahwa nama tersebut adalah seorang ayah, sedangkan predicates kedua menyatakan nama tersebut adalah seorang ayah dari nama yang lain.
+
+I.6. GOAL
+GOAL berisi pertanyaan yang anda ajukan kepada turbo prolog.Bagian GOAL ini hanya dituliskan menggunakan kata tunggal, karena hanya boleh ada sebuah GOAL. GOAL dapat terdiri dari beberapa SUBGOAL. Perlu diingat suatu pernyataan baik fakta, relasi atau GOAL dikatakan satu apabila diakhiri dengan tanda titik.
+Ada 2 (dua) jenis GOAL :
+•	GOAL eksternal	: goal yang diberikan melalui compiler terpadu turbo prolog (di luar program) dan  dalam jendela dialog.
+•	GOAL internal	: goal yang sekaligus dituliskan dalam program sehingga setiap kali dieksekusi tidak perlu lagi menuliskan goal yang diinginkan.
+Catatan : 
+•	Kalimat yang diapit dengan tanda /* .... */ menyatakan keterangan dan tidak dibaca oleh compiler Turbo Prolog 2.0.
+Turbo Prolog 2.0, logika and dituliskan dengan tanda koma “,”, kondisi if dituliskan dengan tanda “:-“.
+
+I.7. CLAUSES (KLAUSA) 
+CLAUSES (KLAUSA) berisi fakta dan aturan yang membentuk keseluruhan program. Bagian klausa ini mirip dengan procedure pada bahasa Pascal. Bagian fakta umumnya dituliskan sebelum bagian aturan. Fakta atau aturan yang mempunyai relasi yang sama harus dituliskan berkelompok.
+	CLAUSES    suka(siti,anto)
+		ayah(hendra,pranoto).
+		ayah(hendra,kristanto).
+		ayah(pranoto,bardan ).
+		kakek(hendra,bardan).
+Dalam turbo prolog dapat juga digunakan pernyataan if dan dituliskan dengan simbol ”:-”. Misalkan suatu pernyataan aturan ”Dewi suka sesuatu yang disukai oleh Panji” :
+		suka(dewi,sesuatu):-
+		     suka(panji,sesuatu).
+Catatan : Untuk contoh-contoh program digunakan struktur utama dari Turbo Prolog 2.0 yang terdiri atas :
+•	 DOMAINS
+•	 PREDICATES
+•	 GOAL
+•	 CLAUSES
+Berikut ini sekedar contoh  dan ikuti petunjukknya. Masuk ke editor dengan cara
+1.	Masuk ke direktori Turbo Prolog 2.0 berada, ketik Prolog lalu tekan enter.
+2.	Tekan huruf F (file) dan N (new) untuk masuk ke editor Turbo Prolog 2.0
+3.	Ketikkan program berikut ini :
+
+/* Contoh program silsilah keluarga */
+DOMAINS
+	nama                  = symbol
+PREDICATES
+	ayah(nama,nama)
+	kakek(nama,nama)
+CLAUSES
+	/* Fakta */
+	ayah(hendra,pranoto).
+	ayah(hendra,kristianto).
+	ayah(pranoto,bardan).
+	ayah(pranoto,deni).
+	ayah(kristianto,harahap).
+	ayah(kristianto,sutarno).
+
+	/* Aturan */
+	Kakek(Kakek,Cucu) :-
+		ayah(Ayah,Cucu),
+		ayah(Kakek,Ayah).
+
+4.	Setelah selesai tekan F10 untuk kembali ke menu utama.
+5.	Tekan C lalu M (atau hot key F9), untuk mengkompilasi program kedalam memory.
+6.	Apabila kesalahan, Turbo Prolog 2.0 akan memberitahu jenis kesalahan dan nomor serta lokasi kesalahan, sehingga anda dapat langsung memperbaikinya. Setelah selesai lakukan kompilasi ulang dengan menekan F9.
+7.	Jika sudah tidak ada kesalahan maka di jendela “Message”, akan tampil pesan “Compile succesfull”. Simpan program dalam hard disk atau media lain dengan menekan F (File) lalu W (Write to) dan berilah nama misal “program1” , Turbo Prolog akan langsung menambahkan ekstensi .PRO dibelakang nama program1.
+8.	Tekan R (run) untuk menjalankan program tsb dan dijendela dialog akan muncul pertanyaan “Goal: ”
+Cobalah beberapa Goal berikut ini :
+Goal: ayah(hendra,pranoto) <enter>
+Yes
+Goal: ayah(pranoto,deni) <enter>
+Yes
+Goal: ayah(hendra,deni) <enter>
+No
+Goal: ayah(Ayah,X) <enter>
+Ayah=hendra, X=pranoto
+Ayah=hendra, X=kristanto
+Ayah=pranoto, X=bardan
+Ayah=pranoto, X=deni
+Ayah=kristanto, X=harahap
+Ayah=kristanto, X=sutarno
+6 Solutions
+Goal: kakek(Kakek,X) <enter>
+Kakek=hendra, X=bardan
+Kakek=hendra, X=deni
+Kakek=hendra, X=harahap
+Kakek=hendra, X=sutarno
+4 Solutions
+Goal: kakek(Z,sutarno) <enter>
+Z=hendra
+1 Solution
+Goal: ayah(hendra,X) <enter>
+X=pranoto
+X=kristanto
+2 Solutions
+
+Contoh : program di atas misal suatu silsilah sebagai berikut :
+Silsilah dapat dijelaskan sbb: hendra ayah pranoto, sedangkan pranoto adalah ayah bardan dan ayah deni. Dapat disimpulkan bahwa hendra kakek dari bardan dan deni. Sehingga dalam Prolog dapat dituliskan :
+			ayah(hendra,pranoto).
+			ayah(pranoto,bardan).
+			Kakek(hendra,bardan).
+Bagaimana hubungan antara kakek dengan ayah, dari pernyataan di atas ?.
+			kakek(hendra,bardan) if
+			     ayah(hendra, pranoto) and
+			    ayah(pranoto,bardan).
+Secara kalimat : Hendra adalah benar kakek Bardan jika Hendra adalah benar ayah Pranoto dan Pranoto adalah benar ayah Bardan.
+Secara umum, relasi kakek tersebut dapat dinyatakan sebagai suatu aturan sbb :
+			kakek(X,Y) if
+			     ayah(X,Z) and
+                                        ayah(Z,Y).
+
+I.5. FAKTA dan RELASI
+Prolog merupakan suatu bahasa pemrograman yang terdiri dari kumpulan data-data obyek yang merupakan suatu fakta. Karena fakta menunjukkan suatu keadaan atau suatu situasi nyata maka fakta selalu benar (”true”).
+Prolog membedakan fakta menjadi 2 (dua), yaitu :
+1.	Menunjukkan relasi
+2.	Menunjukkan milik/sifat.
+Lihat pada contoh di atas :  ayah(hendra,pranoto). Fakta ini mengatakan bahwa hendra adalah ayah pranoto. Ayah menunjukkan relasi antara hendra dan pranoto. Penulisan relasi tidak baku, bebas bergantung pada pembuat program. Contoh di atas dapat juga dituliskan sebagai :
+		ayah_dari(hendra,pranoto)
+Untuk sebuah fakta yang menunjukkan sifat misalnya : suparto adalah seorang pria, maka   pria(suparto),motor(andi).
+
+I.6. RULES (ATURAN).
+Aturan adalah suatu pernyataan yang menunjukkan bagaimana fakta-fakta berinteraksi satu dengan yang lain untuk membentuk suatu kesimpulan. Sebuah aturan dinyatakan sebagai suatu kalimat bersyarat. Misalnya ada suatu fakta : Prasojo suka durian. Kemudian ada sebuah aturan yang berbunyi : Andri suka sesuatu yang disukai oleh Prasojo. Dari informasi yang diperoleh dari fakta yang diketahui dapat diambil kesimpulan (jawaban) dari aturan tersebut yaitu Andri suka durian
+Aturan tersebut dapat juga dinyatakan : Andri suka sesuatu jika Prasojo suka sesuatu itu juga, dan dapat dituliskan sebagai : suka(andri,sesuatu) if suka(prasojo,sesuatu). 
+
+I.7. QUERYS (PERTANYAAN).
+Setelah data-data berupa fakta dan aturan diberikan, dapat diajukan pertanyaan berdasarkan fakta dan aturan yang ada. Misalkan : Apakah Tini suka boneka ? dan dalam Prolog dituliskan : suka(tini,boneka). Jika pertanyaan ini sesuai dengan fakta yang ada, maka Prolog akan memberikan jawaban : Yes(yang berarti benar)
+Catatan :
+•	Kalimat yang diapit dengan tanda /* ....... */ menyatakan keterangan dan tidak dibaca oleh compiler.
+•	Dalam Turbo Prolog, logika and dapat dituliskan dengan tanda koma (‘,’) dan kondisi if dituliskan dengan tanda “:-“
+
+I.8. VARIABLE.
+Besaran yang nilainya dapat berubah-ubah disebut variabel. Misalnya : Siapakah ayah Deni?. Karena ayah Deni  belum diketahui, maka dituliskan dalam suatu variabel, misalnya X dan dituliskan sebagai : 
+		GOAL: ayah(X,deni)<enter>   
+                            X=pranoto
+
+I.8.1. CARA PENULISAN VARIABEL.
+1.	Nama variabel harus diawali dengan huruf besar atau garis bawah (_).
+2.	Nama variabel dapat terdiri dari huruf, bilangan atau simbol dan merupakan satu kesatuan dengan panjang maksimum 250 karakter.
+3.	Nama variabel hendaknya mengandung makna yang berkaitan dengan data yang dinyatakannya. Contoh :  Tanggal_lahir
+    Nama_ayah
+Nama variabel hanya berlaku untuk satu aturan (lokal). Bila variabel yang sama digunakan pada aturan yang lain, berarti variabel tersebut mempunyai arti yang berbeda.
+Misalkan dalam bagian CLAUSES terdapat dua aturan yang berbeda :
+		kakek(Kakek,Cucu):-
+                           ayah(Kakek,Ayah),
+                          ayah(Ayah,Cucu).
+                     nenek(Nenek,Cucu):-
+                        ibu(Nenek,Ayah),
+                      ayah(Ayah,Cucu).
+Variabel Ayah digunakan dalam aturan kakek dan nenek, namun kedua variabel tersebut tidak saling berhubungan. Variabel Ayah dalam aturan kakek hanya digunakan dalam tersebut, begitu pula dalam aturan nenek.
+
+I.8.2. MACAM VARIABEL 
+1.	Variabel bebas (Free variable) : variabel yang belum mempunyai nilai tertentu pada suatu saat.
+2.	Variabel terikat (Bound variable) : variabel yang sudah mempunyai nilai tertentu pada suatu saat. Contoh : GOAL: ayah(Ayah,deni), ayah(Ayah,bardan). Yang berarti siapa ayah deni dan juga ayah bardan?
+3.	Variabel tak bernama (Anonymous variable) : Bila anda ingin mendapatkan informasi tertentu, anda dapat menggunakan variabel tak bernama untuk mengabaikan nilai yang tak dikehendaki. Dalam Prolog variabel tak bernama dituliskan dengan garis bawah (‘_’). Variabel tak bernama tak pernah terikat pada suatu nilai tertentu sehingga selalu sepadan dengan nilai apapun. Misal pada contoh program di atas anda ingin mengetahui nama-nama orang yang mempunyai anak (menjadi orang tua) tetapi anda tidak ingin mengetahui anak-anaknya, anda dapat menanyakan : Goal: ayah(Ayah,_) dan Prolog akan menjawab :
+Ayah=hendra
+Ayah=hendra
+Ayah=pranoto
+Ayah=pranoto
+Ayah=kristanto
+Ayah=kristanto
+Variabel tak bernama dapat juga untuk menyatakan fakta “setiap/semua”
+Contoh :
+Setiap mahasiswa teknik informatika mempunyai komputer 
+Prolog : mempunyai(_,komputer)
+
+I.9. GOAL MAJEMUK.
+Dimaksudkan adalah goal yang terdiri lebih dari satu pertanyaan. Bagian dari goal disebut sub goal . Lihat dan coba contoh berikut ini :
+/* Contoh program merk mobil,tahun,harga */
+DOMAINS
+	merk,warna                  = symbol
+       tahun,harga                 = integer
+
+PREDICATES
+	mobil(merk,warna,tahun,harga)
+
+CLAUSES
+	/* Fakta */
+	mobil(mercedez,biru,1975,20).
+        mobil(mercedez,coklat,1986,50).
+        mobil(kijang,merah,1990,65).
+        mobil(baleno,hijau,1997,85).
+        mobil(bmw,putih,1997,100).
+        mobil(peugeot,metalic,1999,95).
+        mobil(kijang,hijau,1987,55).
+        mobil(honda,hitam,1999,98).
+        mobil(mazda,hijau,1986,35).
+        mobil(corolla,merah,2000,97).
+        mobil(corona,biru,1986,45).
+Misal anda ingin mendapatkan informasi tentang mobil yang harganya diatas 85, Turbo Prolog akan mencari padanan sub goal
+                mobil(Merk,Warna,Tahun,Harga)
+dengan fakta yang ada dimulai dari fakta pertama, kemudian dilanjutkan ke sub goal berikutnya yaitu apakah harganya >85, jika benar maka turbo prolog akan memunculkan solusi dan diteruskan ke fakta yang lain, jika tidak benar maka Turbo Prolog akan mencari kemungkinan yang lain, dst. Sehingga diperoleh informasi diinginkan yang merupakan solusi sbb :
+	Goal: mobil(Merk,Warna,Tahun,Harga),Harga>85
+	Merk=bmw, Warna=putih, Tahun=1997, Harga=100
+        Merk=peugeot, Warna=metalic, Tahun=1999, Harga=95
+        Merk=honda, Warna=hitam, Tahun=1999, Harga=98
+        Merk=corolla, Warna=merah, Tahun=2000, Harga=97
+        4 Solutions
+
+Anda dapat juga meminta informasi misalnya mobil yang tahunnya > 1997 dan warnanya merah.
+        Goal: mobil(Merk,Warna,Tahun,Harga), Warna=merah, Tahun>1997
+        Merk=corolla, Warna=merah, Tahun=2000, Harga=97
+        1 Solution
+
+II. UNIFIKASI DAN BACKTRACKING
+II.1. UNIFIKASI.
+Proses yang dilakukan oleh Turbo Prolog untuk mencari padanan antara pernyataan yang terdapat pada aturan dengan fakta atau kepala aturan yang lain.
+Syarat terjadinya unifikasi antara 2 (dua) pernyataan :
+1.	Mempunyai relasi yang sama.
+2.	Mempunyai jumlah dan posisi argumen yang sama.
+3.	Argumen yang berpadanan harus dari jenis data yang sama.
+4.	Semua pasangan argumen (pada data majemuk) harus juga berpadanan.
+Contoh terjadi unifikasi :
+•	ayah(Ayah, pranoto) dengan ayah(hendra,pranoto)
+•	lahir(Tanggal,Bulan,Tahun) dengan lahir(12,”Agustus”,1964)
+Contoh tidak akan terjadi unifikasi :
+•	ayah(hendra) dengan ayah(hendra,pranoto)
+Karena mempunyai jumlah argumen yang tidak sama, meskipun mempunyai nama relasi yang sama.
+
+II.2. PROSES PENCARIAN JAWABAN.
+Proses pencarian jawaban dalam Turbo Prolog 2.0 dilakukan dengan cara pemadanan (padanan).
+Untuk lebih jelasnya, misal pada contoh program di atas (silsilah keluarga) dilakukan penambahan beberapa fakta dan aturan sbb: 
+
+/* Contoh program silsilah keluarga */
+DOMAINS
+	nama                  = symbol
+
+PREDICATES
+	ayah(nama,nama)
+	kakek(nama,nama)
+       ibu(nama,nama)
+       nenek(nama,nama)
+       saudara_kandung(nama,nama)
+       saudara_sepupu(nama,nama)
+
+CLAUSES
+	/* Fakta */
+       /* Orang tua */
+
+	ayah(hendra,pranoto).
+	ayah(hendra,kristianto).
+	ayah(pranoto,bardan).
+	ayah(pranoto,deni).
+	ayah(kristianto,harahap).
+	ayah(kristianto,sutarno).
+        ayah(prabowo,bu_pranoto).
+        ayah(sasongko,bu_kristanto).
+        ibu(bu_hendra,pranoto).
+        ibu(bu_hendra,kristanto).
+        ibu(bu_pranoto,bardan).
+        ibu(bu_pranoto,deni).
+        ibu(bu_kristanto,harahap).
+        ibu(bu_kristanto,sutarno).
+        ibu(bu_prabowo,bu_pranoto).
+        ibu(bu_sasongko,bu_kristanto).
+
+	/* Aturan */
+        /* Kakek adalah kakek Cucu */
+
+	kakek(Kakek,Cucu) :-
+		 ayah(Ayah,Cucu),
+		 ayah(Kakek,Ayah).
+       kakek(Kakek,Cucu) :-
+		 Ibu(Ibu,Cucu),
+		 ayah(Kakek,Ibu).
+
+        /* Nenek adalah nenek Cucu */
+
+        nenek(Nenek,Cucu):-
+            ayah(Ayah,Cucu),
+            ibu(Nenek,Ayah).
+
+        nenek(Nenek,Cucu):-
+            ibu(Ibu,Cucu), 
+            ibu(Nenek,Ibu).
+
+        /* Nama1 saudara kandung Nama2 */
+       
+        Saudara_kandung(Nama1,Nama2):-
+            ayah(Ayah,Nama1),
+            ayah(Ayah,Nama2),
+            ibu(Ibu,Nama1),
+            ibu(Ibu,Nama2),
+            Nama1 <> Nama2.
+
+        /*  Sdr1 saudara sepupu Sdr2 */
+
+        saudara_sepupu(Sdr1,Sdr2):-
+            ayah(Ayah1,Sdr1),
+            ayah(Ayah2,Sdr2),
+            saudara_kandung(Ayah1,Ayah2).
+
+        saudara_sepupu(Sdr1,Sdr2):-
+            ayah(Ayah1,Sdr1),
+            ibu(Ibu,Sdr2),
+            saudara_kandung(Ayah,Ibu).
+
+        saudara_sepupu(Sdr1,Sdr2):-
+            ibu(Ibu,Sdr1),
+            ayah(Ayah,Sdr2),
+            saudara_kandung(Ibu,Ayah).
+
+        saudara_sepupu(Sdr1,Sdr2):-
+            ibu(Ibu1,Sdr1),
+            ibu(Ibu2,Sdr2),
+            saudara_kandung(Ibu1,Ibu2).
+
+Perhatikan, ada 2 (dua) kata yang hampir sama penulisannya tetapi mempunyai fungsi yang berbeda, yaitu Kakek sebagai variabel dan kakek sebagai relasi, demikian juga Nenek dan nenek, dan lainnya.
+Bagaimana caranya Turbo Prolog 2.0 mendapatkan jawaban dari Goal yang kita berikan ? Lihat kembali pada suatu goal yang kita berikan misal :
+	GOAL: kakek(Kakek,bardan)
+Turbo Prolog 2.0 akan mencari padanan goal di atas dengan fakta/ aturan, mulai dari yang teratas sampai ditemukan fakta/aturan yang sepadan, yaitu :
+	kakek(Kakek,bardan) – kakek(Kakek,Cucu)
+
+Variabel Cucu terikat menjadi bardan dan Turbo Prolog 2.0 akan mencari nilai variabel Kakek dengan membuktikan apakah semua pernyataan (subgoal) di dalam aturan tersebut benar. Pernyataan yang pertama :
+	ayah(Ayah,Cucu) – ayah(Ayah,bardan)
+Untuk membuktikan pernyataan di atas benar, Turbo Prolog 2.0 mencari padanan dengan fakta yang ada mulai dari yang teratas hingga ditemukan : 
+	ayah(Ayah,bardan) – ayah(pranoto,bardan)
+Ini berarti variabel Ayah terikat menjadi pranoto. Karena subgoal yang pertama benar, maka Turbo Prolog 2.0 melanjutkan ke subgoal berikutnya dengan membawa serta semua variabel yang telah terikat pada subgoal sebelumnya : 
+	ayah(Kakek,Ayah) – ayah(Kakek,pranoto)
+Ditemukan padanan :
+        ayah(Kakek,pranoto) – ayah(hendra,pranoto)
+Sehingga variabel Kakek terikat menjadi hendra.
+Setelah semua subgoal dieksekusi dan semua variabel menjadi variabel terikat, Turbo Prolog 2.0 akan kembali ke bagian kepala aturan tersebut dengan membawa semua variabel terikat, sedangkan nilai variabel yang diteruskan oleh aturan kakek tergantung pada variabel yang terdapat pada bagian kepala. Pada aturan kakek, hanya nilai variabel Kakek yang diteruskan sedangkan nilai variabel Ayah tidak diperlukan.
+	kakek(Kakek,bardan) – kakek(hendra,bardan)
+Salah satu jawaban akhir adalah : Kakek = hendra. 
+Setelah keluar dari suatu aturan, variabel yang digunakan oleh subgoal di dalam aturan tersebut akan menjadi variabel bebas kembali.
+Coba untuk beberapa GOAL berikut ini :
+I : Siapakah kakek Bardan ?
+P: kakek(Kakek,bardan).
+I : Siapakah Cucu hendra?
+P: kakek(hendra,Cucu).
+I : Siapakah saudara kandung pranoto?
+P: saudara_kandung(pranoto,Sdr).
+I : Siapakah keponakan kristanto?
+P: keponakan(Keponakan,kristanto).
+I : Siapa saja yang mempunyai hubungan saudara kandung?
+P: saudara_kandung(Nama1,Nama2).
+I : Siapa saja yang mempunyai hubungan saudara sepupu?
+P: saudara_sepupu(Nama1,Nama2).
+I : Siapakah nenek dari harahap?
+P: nenek(X,harahap).
+I : Siapakah saudara_kandung Bardan?
+P: saudara_kandung(X,bardan).
+
+II.3. BACKTRACKING (RUNUT BALIK).
+Backtracking adalah suatu cara (prosedur) kembali ke awal dan mengikuti kembali cara (prosedur) yang sama dengan sebelumnya. Cara ini dilakukan berulang kali sampai jawaban yang diinginkan dapat ditemukan atau sampai semua kemungkinan jawaban telah habis dicoba.
+Coba ketik program pendek berikut ini :
+	/* Program Coba_3 */
+ DOMAINS
+   orang, minuman, kue, rasa = symbol
+PREDICATES
+   minuman(minuman)
+   kue(kue)
+   rasa(minuman,rasa)
+   rasa(kue,rasa)
+   suka(orang,minuman,kue)
+CLAUSES
+   minuman(teh).
+   minuman(kopi).
+   minuman(susu).
+   kue(serabi).
+   kue(bolu).
+   kue(martabak).
+   rasa(teh,tawar).
+   rasa(kopi,pahit).
+   rasa(susu,manis).
+   Rasa(serabi,asin).
+   Rasa(martabak,gurih).
+   Rasa(bolu,manis).
+
+/* Panji suka minuman manis dan kue yang rasanya asin */
+
+   suka(panji,Minuman,Kue):-
+      minuman(Minuman),
+      rasa(Minuman,manis),
+      kue(Kue),
+      rasa(Kue,asin).
+      
+Untuk melihat backtracking, masukkan GOAL :
+ 	suka(panji,Apa1,Apa2)
+Turbo Prolog 2.0 akan mencoba memadankan dengan fakta atau aturan mulai dari yang teratas dan didapatkan padanan pada aturan :
+	suka(panji,Minuman,Kue)
+Variabel Apa1 berunifikasi dengan variabel Minuman dan variabel Apa2 berunifikasi dengan variabel Kue .
+Untuk membuktikan apakah aturan suka tersebut benar atau salah, Turbo Prolog 2.0 akan membuktikan masing-masing bagian (subgoal) aturan tersebut dimulai dari yang pertama, yaitu : 
+	minuman(Minuman)
+Turbo Prolog 2.0 mencari padanan, mulai dari fakta yang pertama dan diperoleh :
+	minuman(teh)	
+sehingga variabel Minuman terikat menjadi teh, dan 
+	kue(Kue).
+Diperoleh : kue(serabi), sehingga variabel Kue terikat menjadi serabi. Karena ada lebih dari fakta/aturan yang sama, Turbo Prolog 2.0 memberi tanda pada fakta/aturan berikutnya sebagai titik runut balik yang nanti akan digunakan untuk mencari kemungkinan jawaban lain bila kemungkinan sebelumnya salah/gagal.
+Dengan variabel Minuman terikat menjadi teh dan variabel Kue terikat menjadi serabi, Turbo prolog 2.0 akan melanjutkan untuk membuktikan subgoal berikutnya yaitu :
+    rasa(Minuman,manis)- rasa(teh,manis) dan
+    rasa(Kue,asin)- rasa(serabi,asin)
+Ternyata untuk minuman tidak sepadan sehingga subgoal tersebut gagal, tetapi untuk rasa(serabi,asin) benar. Kemudian Turbo Prolog2 melakukan runut balik pada titik runut balik mendapatkan fakta :
+	minuman(kopi)
+	rasa(Minuman,manis)- rasa(kopi,manis) 
+ini juga tidak benar, kembali runut balik diperoleh :
+	minuman(susu)
+	rasa(Minuman,manis)- rasa(susu,manis)
+dan ini benar. Turbo Prolog 2.0 berhasil mendapatkan padanannya sehingga subgoal tersebut benar dan seluruh aturan tersebut juga benar. Karena variabel Apa1 telah terikat dengan variabel Minuman dan variabel Minuman terikat dengan susu serta variabel Apa2 terikat dengan variabel Kue, sedangkan variabel Kue terikat dengan serabi, maka diperoleh solusi :
+	Apa1=susu, Apa2=serabi
+	1 Solution
+
+Apabila suatu program, GOAL diletakkan di dalam (GOAL internal), maka Turbo Prolog 2.0 akan melakukan runut balik. Apabila ditemui kondisi gagal (fail) pada suatu subgoal, maka Turbo Prolog 2.0 akan melakukan runut balik dimulai dari subgoal terdekat. Misalkan :
+	sesuatu:-  a,b,c,d
+Dengan subgoal a dan c terdiri dari beberapa fakta/aturan. Jika subgoal b gagal, maka akan dilakukan runut balik pada subgoal a. Jika kondisi gagal baru ditemui pada subgoal d, maka akan dilakukan runut balik pada subgoal c sampai semua kemungkinan jawaban telah dicoba. Jika ternyata tidak ada jawaban yang memenuhi, maka runut balik akan dilanjutkan pada subgoal a. Demikian seterusnya hungga seluruh kemungkinan jawaban a dan c telah dicoba.
+Berikut ini gambar salah satu kemungkinan alur :
+	A – b(gagal) – a – b – c – d(gagal) – c(terakhir) – d(gagal) – a – b – c – d(gagal) – c – d. (berhasil).  
+Jika GOAL di luar program (GOAL Eksternal) dan anda isikan pada bagian Dialog, maka runut balik akan dilakukan secara otomatis walaupun kondisi subgoal tersebut berhasil, akibatnya Turbo Prolog 2.0 akan menampilkan semua kemungkinan jawaban dari program tersebut.
+Untuk lebih memahami hal di atas, cobalah program pendek berikut ini : Program  berisi nama-nama pemain bulutangkis beserta umurnya. Dua orang pemain yang sama umurnya akan bertanding.
+	DOMAINS
+	   nama = symbol
+	   umur = integer
+
+	PREDICATES
+	   pemain(nama,umur)
+
+	CLAUSES
+	   pemain(tan_yoe_hok,35).
+	   pemain(rudy_hartono,25).
+	   pemain(sumirat,35).
+	   pemain(ade_chandra,27).
+	   pemain(swie_king,22).
+	  pemain(minarni,35).
+Pada jendela dialog, masukkan GOAL : 
+	pemain(A,35),pemain(B,35),A<>B
+Maka akan diperoleh :
+	A=tan_yoe_hok,     B=sumirat
+	A=tan_yoe_hok,    B=minarni
+	A=sumirat,             B= tan_yoe_hok
+	A=sumirat,            B=minarni
+	A=minarni,            B= tan_yoe_hok
+	A=minarni,            B=sumirat
+       6 Solutions.
+Tambahkan GOAL menjadi GOAL internal yaitu sebelum CLAUSES, sbb :
+	GOAL
+	   pemain(A,35),
+	   pemain(B,35),
+	   A<>B.
+	   write(A,”   “,B).
+   Karena menggunakan GOAL internal, Turbo Prolog 2.0 tidak melakukan runut balik karena pada bagian akhir, GOAL mempunyai kondisi berhasil, sehingga yang ditampilkan dilayar hanya satu yaitu : A=tan_yoe_hok     B= sumirat.
+
+II.4. PREDIKAT NOT
+Seperti dilogika matematika Not digunakan untuk menyatakan lawan logika dari suatu pernyataan.
+Not tidak dapat berdiri sendiri dan tidak dapat dipasangkan pada fakta atau kepala suatu aturan, tetapi hanya dapat dipasangkan pada bagian suatu aturan. Contoh, misalkan pernyataan :
+	Sdr1 adalah saudara_sepupu Sdr2 jika
+	   Sdr1 dan Sdr2 mempunyai kakek yang sama dan 
+	   Sdr1 bukan saudara_kandung Sdr2 dan
+	   Sdr1 tidak sama dengan Sdr2
+Dalam Turbo Prolog 2.0 dituliskan :
+	Saudara_sepupu(Sdr1,Sdr2):-
+	   Kakek(Kakek,Sdr1),
+	   Kakek(Kakek,Sdr2),
+	   Not(saudara_kandung(Sdr1,Sdr2)),
+	   Sdr1<>Sdr2. 
+
+III. MASUKAN DAN KELUARAN
+Semua predikat yang telah dibicarakan/digunakan dibuat sendiri oleh pemrogram, sehingga pemrogram bebas menentukan nama predikat tersebut. Turbo Prolog 2.0 telah dilengkapi dengan predikat standar dalam jumlah cukup banyak yang mencakup berbagai fungsi. Predikat standar tidak dapat diubah-ubah oleh pemrogram dan juga predikat standar tidak boleh digunakan sebagai nama predikat yang dibuat oleh pemrogram. Karena merupakan reserved word.  
+
+III.1. FUNGSI ARGUMEN PREDIKAT STANDAR.
+Ada 2 fungsi :
+1.	Meneruskan nilai yang ditentukan dalam program ke predikat standar untuk diolah (input). Variabel dalam predikat tersebut harus variabel terikat.
+2.	Meneruskan nilai yang didapat oleh predikat standar ke dalam program (output). Variabel dalam predikat tersebut harus variabel bebas.
+III.2. PREDIKAT KELUARAN
+Turbo Prolog 2.0 mempunyai 3 buah predikat keluaran, yaitu :
+a.	write : digunakan untuk menuliskan konstanta atau isi variabel ke piranti keluaran yang dikenali pada saat itu. Bentuk umum :
+write(E1,E2,.....,En) 
+E1,E2,....,En adalah konstanta (karakter atau string) atau variabel. Variabel harus variabel terikat. Predikat write selalu benar. Untuk menampilkan pada baris berikutnya digunakan predikat standar nl (new line).
+		write(“Program Studi Ilmu Komputer”),nl,
+		write(“Fakultas MIPA UNDIP”).
+Selain itu ada yang lainnya :
+\n : baris baru (carriage return/line feed)
+\t : tabulasi
+\b : backspace (hapus karakter disebelah kiri)
+Dan harus dituliskan dalam tanda kutip bersama-sama dengan apa yang akan ditampilkan, Contoh :
+write(“Program Studi Ilmu Komputer.\n”),	
+write(“Fakultas MIPA UNDIP”).	
+b.	writef  : fungsi sama seperti write, tetapi hasilnya mempunyai format yang diinginkan pemrogram. Bentuk Umum :
+writef(format,E1,E2,...,En)
+variabel format mempunyai bentuk : %-m.pf.
+-	: menghasilkan tulisan rapat kiri.
+Untuk rapat kanan, tanpa tanda –
+m	: lebar tulisan minimum (optional)
+p	: jumlah angka desimal (optional)
+f	: format lain yang diinginkan (optional)
+Macam-macam format f :
+f	: format bilangan real dalam notasi desimal : 123.4 atau 0.054
+e	:  format bilangan real dalam notasi eksponensial : 1.234e2
+g  : format bilangan real dalam bentuk paling sederhana (default untk bilangan real
+d   : format karakter atau bilangan bulat dalam bilangan desimal.
+u  : format karakter atau bilangan bulat posistip (unsigned inte-ger)
+x	: format karakter atau bilangan bulat dalam bilangan heksade-simal.
+c	: format karakter atau bilangan bulat sebagai karakter
+s	: format string.
+c.	writedevice (dengan default adalah layar) : Predikat ini untuk mengubah atau mendapatkan informasi tentang piranti keluaran yang dikenali oleh program pada saat itu. Bentuk umum :
+writedevice(VarPiranti).
+Jika VarPiranti adalah variabel bebas berarti minta informasi piranti yang digunakan, bila variabel terikat, maka mengubah piranti keluaran.
+
+III.3. PREDIKAT MASUKAN
+Ada 5 (lima) buah predikat keluaran (default adalah keyboard):
+a.	Readln : digunakan untuk membaca sederetan karakter dari piranti masukan sampai diketemukan tanda carriage return (ASCII 13). Karakter yang dibaca ditampilkan di layar monitor.
+Bentuk umum :  readln(VarString)
+b.	Readchar : digunakan untuk membaca karakter tunggal dari piranti masukan (tanpa perlu enter).
+Bentuk umum :  readchar(VarChar)
+c.	Readint : untuk membaca bilangan bulat (-32,768 hingga 32,767) sampai tombol Enter ditekan.
+Bentuk umum : readint(VarInt)
+d.	Readreal : untuk membaca bilangan real sampai tombol Enter ditekan.
+Bentuk umum : readreal(VarReal)
+e.	Readdevice : digunakan untuk mengubah atau meminta informasi tentang piranti masukan yang saat itu dikenal.
+Bentuk umum :  readdevice(VarDev)
