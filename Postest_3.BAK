@@ -19,7 +19,7 @@ mata_kuliah(so,pamuji,d).
 mata_kuliah(so,luki,e).
 mata_kuliah(so,sadek,b).
 mata_kuliah(so,yusida,a).
-mata_kuliah(so,eka,a).g
+mata_kuliah(so,eka,a).
 
 goal
 

@@ -29,4 +29,4 @@ CLAUSES
 	usia(sue).
 	
 GOAL
-	istri(mary,NENEK).
+	istri(sue,NENEK).
